@@ -24,7 +24,7 @@ class ImageProcessor:
         progress_bar = tqdm(total=len(image_files), desc="Processing Images")
 
         # Iterate through the image files
-        for image_file in image_files:
+        for k, image_file in enumerate(image_files):
             if not os.path.exists(image_file):
                 progress_bar.update(1)  # Update the progress bar
                 continue
@@ -46,6 +46,9 @@ class ImageProcessor:
         # Load the images using OpenCV
         img1 = cv2.imread(image1)
         img2 = cv2.imread(image2)
+        
+        if img1 is None or img2 is None :
+            return True
 
         # Preprocess the images using ImageUtils functions
         preprocessed_img1 = ImageUtils.preprocess_image_change_detection(img1)
@@ -74,7 +77,7 @@ class ImageProcessor:
         image_files = []
         for root, dirs, files in os.walk(self.input_folder):
             for file in files:
-                if file.lower().endswith(('.png', '.jpg', '.jpeg')):
+                if file.lower().endswith(('.png')):
                     image_files.append(os.path.join(root, file))
         return image_files
 
