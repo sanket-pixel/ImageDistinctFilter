@@ -25,7 +25,9 @@ class ImageProcessor:
 
         # Iterate through the image files
         for image_file in image_files:
-            progress_bar.update(1) 
+            if not os.path.exists(image_file):
+                progress_bar.update(1)  # Update the progress bar
+                continue
             # Flag to determine if the image is unique
             unique = True
             # Compare the current image with unique images
@@ -37,6 +39,8 @@ class ImageProcessor:
             if unique:
                 self.folder_manager.move_image(image_file, self._get_output_image_path(image_file))
                 unique_images.append(image_file)
+                
+            progress_bar.update(1) 
                     
     def _compare_images(self, image1, image2):
         # Load the images using OpenCV
